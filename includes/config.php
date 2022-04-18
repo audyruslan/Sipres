@@ -1,12 +1,14 @@
 <?php
-class Config {
+class Config
+{
   private $host = "localhost";
-  private $db_name = "ahp";
+  private $db_name = "dairr";
   private $username = "root";
   private $password = "";
   public $conn;
 
-  public function getConnection() {
+  public function getConnection()
+  {
     $this->conn = null;
     try {
       $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);

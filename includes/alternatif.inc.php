@@ -1,7 +1,8 @@
 <?php
-class Alternatif {
+class Alternatif
+{
 	private $conn;
-	private $table_name = "alternatif";
+	private $table_name = "data_alternatif";
 
 	public $id;
 	public $id_kelas;
@@ -16,11 +17,13 @@ class Alternatif {
 
 	public $periode;
 
-	public function __construct($db) {
+	public function __construct($db)
+	{
 		$this->conn = $db;
 	}
 
-	function insert() {
+	function insert()
+	{
 		$query = "INSERT INTO {$this->table_name} VALUES(?, ?, ?, ?, ?, ?, ?, ?, NULL)";
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindParam(1, $this->id);
@@ -39,31 +42,35 @@ class Alternatif {
 		}
 	}
 
-	function readAll() {
+	function readAll()
+	{
 		$query = "SELECT * FROM {$this->table_name} ORDER BY id_alternatif ASC";
-		$stmt = $this->conn->prepare( $query );
+		$stmt = $this->conn->prepare($query);
 		$stmt->execute();
 
 		return $stmt;
 	}
 
-	function readByFilter() {
+	function readByFilter()
+	{
 		$query = "SELECT * FROM {$this->table_name} a JOIN nilai_awal b ON a.id_alternatif=b.id_alternatif WHERE b.keterangan='B'";
-		$stmt = $this->conn->prepare( $query );
+		$stmt = $this->conn->prepare($query);
 		$stmt->execute();
 
 		return $stmt;
 	}
 
-	function countByFilter() {
+	function countByFilter()
+	{
 		$query = "SELECT * FROM {$this->table_name} a JOIN nilai_awal b ON a.id_alternatif=b.id_alternatif WHERE b.keterangan='B' ";
-		$stmt = $this->conn->prepare( $query );
+		$stmt = $this->conn->prepare($query);
 		$stmt->execute();
 
 		return $stmt->rowCount();
 	}
 
-	function readAllWithNilai() {
+	function readAllWithNilai()
+	{
 		$query = "SELECT *, b.nilai, b.keterangan
 				FROM {$this->table_name} a
 					JOIN nilai_awal b ON a.id_alternatif=b.id_alternatif
@@ -75,7 +82,8 @@ class Alternatif {
 		return $stmt;
 	}
 
-	function readByRank() {
+	function readByRank()
+	{
 		$query = "SELECT *
 				FROM {$this->table_name} a
 					JOIN nilai_awal b ON a.id_alternatif=b.id_alternatif
@@ -90,15 +98,17 @@ class Alternatif {
 		return $stmt;
 	}
 
-	function countAll(){
+	function countAll()
+	{
 		$query = "SELECT * FROM {$this->table_name} ORDER BY id_alternatif ASC";
-		$stmt = $this->conn->prepare( $query );
+		$stmt = $this->conn->prepare($query);
 		$stmt->execute();
 
 		return $stmt->rowCount();
 	}
 
-	function readOne(){
+	function readOne()
+	{
 		$query = "SELECT * FROM {$this->table_name} WHERE id_alternatif=? LIMIT 0,1";
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindParam(1, $this->id);
@@ -117,7 +127,8 @@ class Alternatif {
 		// $this->skor_alternatif = $row['skor_alternatif'];
 	}
 
-	function getNamaKelas($id){
+	function getNamaKelas($id)
+	{
 		$query = "SELECT nama_kelas FROM kelas WHERE id_kelas={$id} LIMIT 0,1";
 		$stmt = $this->conn->prepare($query);
 		$stmt->execute();
@@ -126,7 +137,8 @@ class Alternatif {
 		return $row["nama_kelas"];
 	}
 
-	function readOneByNik(){
+	function readOneByNik()
+	{
 		$query = "SELECT * FROM {$this->table_name} WHERE nik=? LIMIT 0,1";
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindParam(1, $this->nik);
@@ -147,15 +159,17 @@ class Alternatif {
 		// $this->skor_alternatif = $row['skor_alternatif'];
 	}
 
-	function readSatu($a) {
+	function readSatu($a)
+	{
 		$query = "SELECT * FROM {$this->table_name} WHERE id_alternatif='$a' LIMIT 0,1";
-		$stmt = $this->conn->prepare( $query );
+		$stmt = $this->conn->prepare($query);
 		$stmt->execute();
 
 		return $stmt;
 	}
 
-	function getNewID() {
+	function getNewID()
+	{
 		$query = "SELECT MAX(id_alternatif) AS code FROM {$this->table_name}";
 		$stmt = $this->conn->prepare($query);
 		$stmt->execute();
@@ -168,18 +182,21 @@ class Alternatif {
 		}
 	}
 
-	function genCode($latest, $key, $chars = 0) {
-    $new = intval(substr($latest, strlen($key))) + 1;
-    $numb = str_pad($new, $chars, "0", STR_PAD_LEFT);
-    return $key . $numb;
+	function genCode($latest, $key, $chars = 0)
+	{
+		$new = intval(substr($latest, strlen($key))) + 1;
+		$numb = str_pad($new, $chars, "0", STR_PAD_LEFT);
+		return $key . $numb;
 	}
 
-	function genNextCode($start, $key, $chars = 0) {
-    $new = str_pad($start, $chars, "0", STR_PAD_LEFT);
-    return $key . $new;
+	function genNextCode($start, $key, $chars = 0)
+	{
+		$new = str_pad($start, $chars, "0", STR_PAD_LEFT);
+		return $key . $new;
 	}
 
-	function update() {
+	function update()
+	{
 		$query = "UPDATE {$this->table_name}
 				SET
 					id_kelas = :id_kelas,
@@ -209,9 +226,10 @@ class Alternatif {
 		}
 	}
 
-	function delete() {
+	function delete()
+	{
 		$query = "DELETE FROM {$this->table_name} WHERE id_alternatif = ?";
-		$stmt = $this->conn->prepare($query); 
+		$stmt = $this->conn->prepare($query);
 		$stmt->bindParam(1, $this->id);
 		if ($result = $stmt->execute()) {
 			return true;
@@ -220,7 +238,8 @@ class Alternatif {
 		}
 	}
 
-	function hapusell($ax) {
+	function hapusell($ax)
+	{
 		$query = "DELETE FROM {$this->table_name} WHERE id_alternatif in $ax";
 		$stmt = $this->conn->prepare($query);
 		if ($result = $stmt->execute()) {

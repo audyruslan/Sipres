@@ -1,17 +1,20 @@
 <?php
-class Kriteria {
+class Kriteria
+{
 	private $conn;
-	private $table_name = "kriteria";
+	private $table_name = "data_kriteria";
 
 	public $id;
 	public $nm;
 	public $bobot;
 
-	public function __construct($db) {
+	public function __construct($db)
+	{
 		$this->conn = $db;
 	}
 
-	function insert() {
+	function insert()
+	{
 		$query = "INSERT INTO {$this->table_name} VALUES(?, ?, 0, 0)";
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindParam(1, $this->id);
@@ -24,39 +27,43 @@ class Kriteria {
 		}
 	}
 
-	function getNewID() {
+	function getNewID()
+	{
 		$query = "SELECT id_kriteria FROM {$this->table_name} ORDER BY id_kriteria DESC LIMIT 1";
 		$stmt = $this->conn->prepare($query);
 		$stmt->execute();
 		if ($stmt->rowCount()) {
 			$row = $stmt->fetch(PDO::FETCH_ASSOC);
 			$pcs = explode("C", $row['id_kriteria']);
-			$result = "C".($pcs[1]+1);
+			$result = "C" . ($pcs[1] + 1);
 		} else {
 			$result = "C1";
 		}
 		return $result;
 	}
 
-	function readAll() { 
+	function readAll()
+	{
 		$query = "SELECT * FROM {$this->table_name} ORDER BY id_kriteria ASC";
-		$stmt = $this->conn->prepare( $query );
+		$stmt = $this->conn->prepare($query);
 		$stmt->execute();
 
 		return $stmt;
 	}
 
-	function countAll() {
+	function countAll()
+	{
 		$query = "SELECT * FROM {$this->table_name} ORDER BY id_kriteria ASC";
-		$stmt = $this->conn->prepare( $query );
+		$stmt = $this->conn->prepare($query);
 		$stmt->execute();
 
 		return $stmt->rowCount();
 	}
 
-	function readOne() {
+	function readOne()
+	{
 		$query = "SELECT * FROM {$this->table_name} WHERE id_kriteria=? LIMIT 0,1";
-		$stmt = $this->conn->prepare( $query );
+		$stmt = $this->conn->prepare($query);
 		$stmt->bindParam(1, $this->id);
 		$stmt->execute();
 		$row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -65,15 +72,17 @@ class Kriteria {
 		$this->bobot = $row['bobot_kriteria'];
 	}
 
-	function readSatu($a) {
+	function readSatu($a)
+	{
 		$query = "SELECT * FROM {$this->table_name} WHERE id_kriteria='$a' LIMIT 0,1";
-		$stmt = $this->conn->prepare( $query );
+		$stmt = $this->conn->prepare($query);
 		$stmt->execute();
 
 		return $stmt;
 	}
 
-	function update() {
+	function update()
+	{
 		$query = "UPDATE {$this->table_name}
 				SET
 					nama_kriteria = :nm
@@ -91,7 +100,8 @@ class Kriteria {
 		}
 	}
 
-	function delete() {
+	function delete()
+	{
 		$query = "DELETE FROM {$this->table_name} WHERE id_kriteria=?";
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindParam(1, $this->id);
@@ -103,7 +113,8 @@ class Kriteria {
 		}
 	}
 
-	function hapusell($ids) {
+	function hapusell($ids)
+	{
 		$query = "DELETE FROM {$this->table_name} WHERE id_kriteria IN $ids";
 		$stmt = $this->conn->prepare($query);
 
