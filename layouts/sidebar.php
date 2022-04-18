@@ -93,9 +93,17 @@
                           </li>
                       </ul>
                   </li>
+                  <li class="nav-item">
+                      <a href="hasil_akhir.php" class="nav-link">
+                          <i class="nav-icon fas fa-copy"></i>
+                          <p>
+                              Hasil Akhir
+                          </p>
+                      </a>
+                  </li>
                   <li class="nav-header">All Setting</li>
                   <li class="nav-item">
-                      <a href="pages/calendar.html" class="nav-link">
+                      <a href="rangking.php" class="nav-link">
                           <i class="nav-icon far fa-calendar-alt"></i>
                           <p>
                               Laporan
