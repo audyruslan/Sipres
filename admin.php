@@ -1,4 +1,4 @@
-  <?php 
+  <?php
     session_start();
     $title = "Admininistrato - Sipres";
     require 'layouts/header.php';
@@ -23,7 +23,7 @@
     $query = mysqli_query($conn, "SELECT * FROM user WHERE username = '$user'");
     $admin = mysqli_fetch_assoc($query);
     require 'layouts/sidebar.php';
-  ?>
+    ?>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
       <!-- Content Header (Page header) -->
@@ -49,18 +49,29 @@
           <div class="container-fluid">
               <!-- Small boxes (Stat box) -->
               <div class="row">
+                  <?php
+                    // Count Data Alternatif
+                    $countAlternatif = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM alternatif"));
+                    // Count Data Alternatif
+                    $countKriteria = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM kriteria"));
+                    // Count Data Alternatif
+                    $countAwal = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM preferensi"));
+                    // Count Data Alternatif
+                    $countUser = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM user"));
+                    ?>
                   <div class="col-lg-3 col-6">
                       <!-- small box -->
                       <div class="small-box bg-info">
                           <div class="inner">
-                              <h3>150</h3>
+                              <h3><?= $countAlternatif; ?></h3>
 
-                              <p>New Orders</p>
+                              <p>Data Alternatif</p>
                           </div>
                           <div class="icon">
                               <i class="ion ion-bag"></i>
                           </div>
-                          <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                          <a href="alternatif.php" class="small-box-footer">More info <i
+                                  class="fas fa-arrow-circle-right"></i></a>
                       </div>
                   </div>
                   <!-- ./col -->
@@ -68,14 +79,15 @@
                       <!-- small box -->
                       <div class="small-box bg-success">
                           <div class="inner">
-                              <h3>53<sup style="font-size: 20px">%</sup></h3>
+                              <h3><?= $countKriteria; ?></h3>
 
-                              <p>Bounce Rate</p>
+                              <p>Data Kriteria</p>
                           </div>
                           <div class="icon">
                               <i class="ion ion-stats-bars"></i>
                           </div>
-                          <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                          <a href="kriteria.php" class="small-box-footer">More info <i
+                                  class="fas fa-arrow-circle-right"></i></a>
                       </div>
                   </div>
                   <!-- ./col -->
@@ -83,14 +95,15 @@
                       <!-- small box -->
                       <div class="small-box bg-warning">
                           <div class="inner">
-                              <h3>44</h3>
+                              <h3><?= $countAwal; ?></h3>
 
-                              <p>User Registrations</p>
+                              <p>Data Preferensi</p>
                           </div>
                           <div class="icon">
                               <i class="ion ion-person-add"></i>
                           </div>
-                          <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                          <a href="nilai_preferensi.php" class="small-box-footer">More info <i
+                                  class="fas fa-arrow-circle-right"></i></a>
                       </div>
                   </div>
                   <!-- ./col -->
@@ -98,14 +111,15 @@
                       <!-- small box -->
                       <div class="small-box bg-danger">
                           <div class="inner">
-                              <h3>65</h3>
+                              <h3><?= $countUser; ?></h3>
 
-                              <p>Unique Visitors</p>
+                              <p>Data Admin</p>
                           </div>
                           <div class="icon">
                               <i class="ion ion-pie-graph"></i>
                           </div>
-                          <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                          <a href="add_role.php" class="small-box-footer">More info <i
+                                  class="fas fa-arrow-circle-right"></i></a>
                       </div>
                   </div>
                   <!-- ./col -->
@@ -115,6 +129,6 @@
       </section>
       <!-- /.content -->
   </div>
-  <?php 
+  <?php
     require 'layouts/footer.php';
-  ?>
+    ?>

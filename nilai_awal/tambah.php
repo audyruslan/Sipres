@@ -2,15 +2,16 @@
 session_start();
 require '../functions.php';
 
-function getRange($n) {
-    if ($n >= 88 AND $n < 100) {
-    return "A";
-    } else if ($n >= 77 AND $n < 88) {
-    return "B";
-    } else if ($n >= 60 AND $n < 77) {
-    return "C";
+function getRange($n)
+{
+    if ($n >= 88 and $n < 100) {
+        return "A";
+    } else if ($n >= 77 and $n < 88) {
+        return "B";
+    } else if ($n >= 60 and $n < 77) {
+        return "C";
     } else {
-    return "K";
+        return "K";
     }
 }
 
@@ -18,8 +19,8 @@ function tambah($data)
 {
     global $conn;
 
-    $kriteria = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM kriteria ORDER BY id ASC"));
-    
+    $kriteria = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM data_kriteria ORDER BY id_kriteria ASC"));
+
     $siswa = $data["siswa"];
     $nilai = (array_sum($data["kriteria"]) / $kriteria);
     $keterangan_nilai = getRange($nilai);
@@ -32,12 +33,12 @@ function tambah($data)
 
     // tambahkan data ke tabel Nilai Awal Detail
     $last_id = mysqli_insert_id($conn);
-    foreach($data["kriteria"] as $k => $v){
+    foreach ($data["kriteria"] as $k => $v) {
         $id_nilai = $last_id;
         $id_kriteria = $k;
         $nilai = $data["kriteria"][$k];
-        
-    mysqli_query($conn, "INSERT INTO nilai_awal_detail
+
+        mysqli_query($conn, "INSERT INTO nilai_awal_detail
                 VALUES 
                 ('','$id_nilai','$id_kriteria','$nilai')");
     }

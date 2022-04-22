@@ -1,4 +1,4 @@
-<?php 
+<?php
 // koneksi ke database
 $conn = mysqli_connect("localhost", "root", "", "ahp");
 // link
@@ -17,21 +17,22 @@ function query($query)
 // Format Tanggal Indo
 function tanggal_indo($tanggal)
 {
-	$bulan = array (1 =>   'Januari',
-				'Februari',
-				'Maret',
-				'April',
-				'Mei',
-				'Juni',
-				'Juli',
-				'Agustus',
-				'September',
-				'Oktober',
-				'November',
-				'Desember'
-			);
-	$split = explode('-', $tanggal);
-	return $split[2] . ' ' . $bulan[ (int)$split[1] ] . ' ' . $split[0];
+    $bulan = array(
+        1 =>   'Januari',
+        'Februari',
+        'Maret',
+        'April',
+        'Mei',
+        'Juni',
+        'Juli',
+        'Agustus',
+        'September',
+        'Oktober',
+        'November',
+        'Desember'
+    );
+    $split = explode('-', $tanggal);
+    return $split[2] . ' ' . $bulan[(int)$split[1]] . ' ' . $split[0];
 }
 
 if (isset($_SESSION["username"])) {
@@ -63,19 +64,11 @@ function hapus_user($id)
     return mysqli_affected_rows($conn);
 }
 
-// Hapus Data Nilai Preferensi
-function hapus_preferensi($id)
-{
-    global $conn;
-    mysqli_query($conn, "DELETE FROM preferensi WHERE id = '$id'");
-    return mysqli_affected_rows($conn);
-}
-
 // Hapus Data Alternatif
 function hapus_alternatif($id)
 {
     global $conn;
-    mysqli_query($conn, "DELETE FROM alternatif WHERE id = '$id'");
+    mysqli_query($conn, "DELETE FROM data_alternatif WHERE id_alternatif = '$id'");
     return mysqli_affected_rows($conn);
 }
 
@@ -83,7 +76,7 @@ function hapus_alternatif($id)
 function hapus_kriteria($id)
 {
     global $conn;
-    mysqli_query($conn, "DELETE FROM kriteria WHERE id_kriteria = '$id'");
+    mysqli_query($conn, "DELETE FROM data_kriteria WHERE id_kriteria = '$id'");
     return mysqli_affected_rows($conn);
 }
 
@@ -91,7 +84,7 @@ function hapus_kriteria($id)
 function hapus_nilai_awal($id)
 {
     global $conn;
-    mysqli_query($conn, "DELETE FROM nilai_awal WHERE id = '$id'");
+    mysqli_query($conn, "DELETE FROM nilai_awal WHERE id_nilai_awal = '$id'");
     return mysqli_affected_rows($conn);
 }
 
@@ -112,4 +105,3 @@ function avatar($character)
     imagedestroy($image);
     return $path;
 }
-?>

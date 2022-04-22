@@ -4,7 +4,7 @@ require 'functions.php';
 // cek cookie
 if (isset($_COOKIE['id']) && isset($_COOKIE['key'])) {
     $id = $_COOKIE['id'];
-    $key = $_COOKIE['key']; 
+    $key = $_COOKIE['key'];
 
     // ambil username berdasarkan id
     $result = mysqli_query($conn, "SELECT username FROM user WHERE id = $id");

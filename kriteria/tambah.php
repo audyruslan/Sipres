@@ -5,15 +5,16 @@ require '../functions.php';
 function tambah($data)
 {
     global $conn;
-    
+
+    $id_kriteria = $data['id_kriteria'];
     $nama_kriteria = $data['nama_kriteria'];
     $bobot_kriteria = $data['bobot_kriteria'];
 
     // tambahkan data ke database
-    mysqli_query($conn, "INSERT INTO kriteria 
-        (nama_kriteria,bobot_kriteria)
+    mysqli_query($conn, "INSERT INTO data_kriteria 
+        (id_kriteria,nama_kriteria,jumlah_kriteria,bobot_kriteria)
         VALUES
-        ('$nama_kriteria','$bobot_kriteria')");
+        ('$id_kriteria','$nama_kriteria','','$bobot_kriteria')");
 
     return mysqli_affected_rows($conn);
 }

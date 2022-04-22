@@ -13,19 +13,6 @@ class Kriteria
 		$this->conn = $db;
 	}
 
-	function insert()
-	{
-		$query = "INSERT INTO {$this->table_name} VALUES(?, ?, 0, 0)";
-		$stmt = $this->conn->prepare($query);
-		$stmt->bindParam(1, $this->id);
-		$stmt->bindParam(2, $this->nm);
-
-		if ($stmt->execute()) {
-			return true;
-		} else {
-			return false;
-		}
-	}
 
 	function getNewID()
 	{
@@ -79,38 +66,6 @@ class Kriteria
 		$stmt->execute();
 
 		return $stmt;
-	}
-
-	function update()
-	{
-		$query = "UPDATE {$this->table_name}
-				SET
-					nama_kriteria = :nm
-				WHERE
-					id_kriteria = :id";
-
-		$stmt = $this->conn->prepare($query);
-		$stmt->bindParam(':nm', $this->nm);
-		$stmt->bindParam(':id', $this->id);
-
-		if ($stmt->execute()) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	function delete()
-	{
-		$query = "DELETE FROM {$this->table_name} WHERE id_kriteria=?";
-		$stmt = $this->conn->prepare($query);
-		$stmt->bindParam(1, $this->id);
-
-		if ($result = $stmt->execute()) {
-			return true;
-		} else {
-			return false;
-		}
 	}
 
 	function hapusell($ids)

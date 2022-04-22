@@ -1,28 +1,28 @@
 <?php
- session_start();
-    $title = "Nilai Preferensi - Sipres";
-    require 'layouts/header.php';
-    require 'layouts/navbar.php';
-    require 'functions.php';
-    if (!isset($_SESSION["username"])) {
-        echo '<script>
+session_start();
+$title = "Nilai Preferensi - Sipres";
+require 'layouts/header.php';
+require 'layouts/navbar.php';
+require 'functions.php';
+if (!isset($_SESSION["username"])) {
+    echo '<script>
                     alert("Mohon login dahulu !");
                     window.location="' . $base_url . '/";
                 </script>';
-        return false;
-    }
+    return false;
+}
 
-    if ($_SESSION["role_id"] != "1") {
-        echo '<script>
+if ($_SESSION["role_id"] != "1") {
+    echo '<script>
                     alert("Maaf Anda Tidak Berhak Ke Halaman ini !");
                     window.location="' . $base_url . '/' . $_SESSION["role"] . '/";
                     </script>';
-        return false;
-    }
-    $user = $_SESSION["username"];
-    $query = mysqli_query($conn, "SELECT * FROM user WHERE username = '$user'");
-    $admin = mysqli_fetch_assoc($query);
-    require 'layouts/sidebar.php';?>
+    return false;
+}
+$user = $_SESSION["username"];
+$query = mysqli_query($conn, "SELECT * FROM user WHERE username = '$user'");
+$admin = mysqli_fetch_assoc($query);
+require 'layouts/sidebar.php'; ?>
 
 <div class="content-wrapper">
     <div class="content-header">
@@ -99,13 +99,13 @@
                                 </thead>
                                 <?php
                                 $i = 1;
-                                $sql = mysqli_query($conn, "SELECT * FROM preferensi");
+                                $sql = mysqli_query($conn, "SELECT * FROM nilai");
                                 while ($row = mysqli_fetch_assoc($sql)) {
                                 ?>
                                 <tr>
                                     <td><?= $i; ?></td>
-                                    <td><?= $row['nilai']; ?></td>
-                                    <td><?= $row['keterangan_nilai']; ?></td>
+                                    <td><?= $row['jum_nilai']; ?></td>
+                                    <td><?= $row['ket_nilai']; ?></td>
                                     <td>
                                         <a class="btn btn-danger btn-sm hapus_preferensi"
                                             href="preferensi/hapus.php?id=<?= $row["id"]; ?>"><i

@@ -3,14 +3,14 @@ session_start();
 require '../functions.php';
 
 function tambah($data)
-{ 
+{
     global $conn;
 
     $nama_lengkap = $data['nama_lengkap'];
     $username = $data['username'];
     $jabatan = $data['jabatan'];
-    $role_id = $data['role_id'];
-    $password = $data['password']; 
+    $role_id = "1";
+    $password = $data['password'];
     $img_dir = avatar($data['nama_lengkap'][0]);
 
     // enkripsi password

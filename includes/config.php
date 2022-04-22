@@ -2,7 +2,7 @@
 class Config
 {
   private $host = "localhost";
-  private $db_name = "dairr";
+  private $db_name = "ahp";
   private $username = "root";
   private $password = "";
   public $conn;

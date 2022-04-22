@@ -5,15 +5,14 @@ require '../functions.php';
 function tambah($data)
 {
     global $conn;
-    
-    $nilai = $data['nilai'];
-    $keterangan_nilai = $data['keterangan_nilai'];
+
+    $nilai = $data['jum_nilai'];
+    $keterangan_nilai = $data['ket_nilai'];
 
     // tambahkan data ke database
-    mysqli_query($conn, "INSERT INTO preferensi 
-        (nilai,keterangan_nilai)
+    mysqli_query($conn, "INSERT INTO nilai
         VALUES
-        ('$nilai','$keterangan_nilai')");
+        ('','$nilai','$keterangan_nilai')");
 
     return mysqli_affected_rows($conn);
 }

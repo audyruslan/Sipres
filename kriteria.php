@@ -1,28 +1,38 @@
 <?php
- session_start();
-    $title = "Data Kriteria - Sipres";
-    require 'layouts/header.php';
-    require 'layouts/navbar.php';
-    require 'functions.php';
-    if (!isset($_SESSION["username"])) {
-        echo '<script>
+session_start();
+$title = "Data Kriteria - Sipres";
+require 'layouts/header.php';
+require 'layouts/navbar.php';
+require 'functions.php';
+if (!isset($_SESSION["username"])) {
+    echo '<script>
                     alert("Mohon login dahulu !");
                     window.location="' . $base_url . '/";
                 </script>';
-        return false;
-    }
+    return false;
+}
 
-    if ($_SESSION["role_id"] != "1") {
-        echo '<script>
+if ($_SESSION["role_id"] != "1") {
+    echo '<script>
                     alert("Maaf Anda Tidak Berhak Ke Halaman ini !");
                     window.location="' . $base_url . '/' . $_SESSION["role"] . '/";
                     </script>';
-        return false;
-    }
-    $user = $_SESSION["username"];
-    $query = mysqli_query($conn, "SELECT * FROM user WHERE username = '$user'");
-    $admin = mysqli_fetch_assoc($query);
-    require 'layouts/sidebar.php';?>
+    return false;
+}
+$user = $_SESSION["username"];
+$query = mysqli_query($conn, "SELECT * FROM user WHERE username = '$user'");
+$admin = mysqli_fetch_assoc($query);
+require 'layouts/sidebar.php';
+
+// Connect DB
+include("includes/config.php");
+$config = new Config();
+$db = $config->getConnection();
+
+include_once 'includes/kriteria.inc.php';
+$kriObj = new Kriteria($db);
+
+?>
 
 <div class="content-wrapper">
     <div class="content-header">
@@ -66,6 +76,12 @@
                                     <form action="kriteria/tambah.php" method="post">
                                         <div class="modal-body">
                                             <div class="form-group">
+                                                <label for="id_kriteria">ID Kriteria</label>
+                                                <input type="text" autocomplete="off" class="form-control"
+                                                    id="id_kriteria" name="id_kriteria" placeholder="Nama Kriteria"
+                                                    value="<?= $kriObj->getNewID() ?>" readonly>
+                                            </div>
+                                            <div class="form-group">
                                                 <label for="nama_kriteria">Nama Kriteria</label>
                                                 <input type="text" autocomplete="off" class="form-control"
                                                     id="nama_kriteria" name="nama_kriteria" placeholder="Nama Kriteria">
@@ -99,7 +115,7 @@
                                 </thead>
                                 <?php
                                 $i = 1;
-                                $sql = mysqli_query($conn, "SELECT * FROM kriteria");
+                                $sql = mysqli_query($conn, "SELECT * FROM data_kriteria");
                                 while ($row = mysqli_fetch_assoc($sql)) {
                                 ?>
                                 <tr>
@@ -110,45 +126,53 @@
                                         <a class="btn btn-danger btn-sm hapus_kriteria"
                                             href="kriteria/hapus.php?id_kriteria=<?= $row["id_kriteria"]; ?>"><i
                                                 class="fas fa-trash"></i></a>
-                                        <a class="btn btn-success btn-sm ubah" data-toggle="modal" data-target="#EditModal<?= $row["id_kriteria"]; ?>"><i class="fas fa-edit"></i> </a>
+                                        <!-- <a class="btn btn-success btn-sm ubah" data-toggle="modal"
+                                            data-target="#EditModal<?= $row["id_kriteria"]; ?>"><i
+                                                class="fas fa-edit"></i> </a> -->
                                     </td>
                                 </tr>
 
-                                   <!-- Edit Modal -->
-                                   <div class="modal fade" id="EditModal<?= $row["id_kriteria"]; ?>" tabindex="-1" role="dialog" aria-labelledby="#EditModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="EditModalLabel">Edit Analisa Alternatif</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <form action="kriteria/edit.php" method="post">
-                                                    <div class="modal-body">
-                                                        <input type="hidden" name="id_kriteria" id="id_kriteria" value="<?= $row["id_kriteria"]; ?>">
-                                                            <div class="form-group">
-                                                                <label for="nama_kriteria">Nama Kriteria</label>
-                                                                <input type="text" autocomplete="off" class="form-control"
-                                                                    id="nama_kriteria" name="nama_kriteria"
-                                                                    value="<?= $row["nama_kriteria"]; ?>" placeholder="Nama Kriteria">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="bobot_kriteria">Bobot Kriteria</label>
-                                                                <input type="text" autocomplete="off" class="form-control"
-                                                                    id="bobot_kriteria" name="bobot_kriteria"
-                                                                    value="<?= $row["bobot_kriteria"]; ?>"
-                                                                    placeholder="Bobot Kriteria">
-                                                            </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembail</button>
-                                                        <button type="submit" name="ubah" class="btn btn-success">Ubah</button>
-                                                    </div>
-                                                </form>
+                                <!-- Edit Modal -->
+                                <div class="modal fade" id="EditModal<?= $row["id_kriteria"]; ?>" tabindex="-1"
+                                    role="dialog" aria-labelledby="#EditModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="EditModalLabel">Edit Kriteria</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
                                             </div>
+                                            <form action="kriteria/edit.php" method="post">
+                                                <div class="modal-body">
+                                                    <input type="hidden" name="id_kriteria" id="id_kriteria"
+                                                        value="<?= $row["id_kriteria"]; ?>">
+                                                    <div class="form-group">
+                                                        <label for="nama_kriteria">Nama Kriteria</label>
+                                                        <input type="text" autocomplete="off" class="form-control"
+                                                            id="nama_kriteria" name="nama_kriteria"
+                                                            value="<?= $row["nama_kriteria"]; ?>"
+                                                            placeholder="Nama Kriteria">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="bobot_kriteria">Bobot Kriteria</label>
+                                                        <input type="text" autocomplete="off" class="form-control"
+                                                            id="bobot_kriteria" name="bobot_kriteria"
+                                                            value="<?= $row["bobot_kriteria"]; ?>"
+                                                            placeholder="Bobot Kriteria">
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Kembail</button>
+                                                    <button type="submit" name="ubah"
+                                                        class="btn btn-success">Ubah</button>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
+                                </div>
                                 <?php $i++; ?>
 
                                 <?php

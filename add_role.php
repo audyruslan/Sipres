@@ -93,7 +93,7 @@ require 'layouts/sidebar.php'; ?>
                                                             id="password" name="password"
                                                             placeholder="Masukkan Password">
                                                     </div>
-                                                    <div class="form-group">
+                                                    <!-- <div class="form-group">
                                                         <label for="">Role</label>
                                                         <select class="form-control" name="role_id" id="role_id">
                                                             <option>-- Silahkan Pilih-- </option>
@@ -107,7 +107,7 @@ require 'layouts/sidebar.php'; ?>
                                                             }
                                                             ?>
                                                         </select>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                             </div>
                                         </div>

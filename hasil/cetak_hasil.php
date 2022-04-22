@@ -3,7 +3,7 @@
 $db_host = "localhost";
 $db_user = "root";
 $db_pass = "";
-$db_name = "remisi";
+$db_name = "dairr";
 
 $koneksi = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
 
@@ -16,25 +16,23 @@ require '../fpdf/fpdf.php';
 $pdf = new FPDF('L', 'mm', 'Letter');
 $pdf->AddPage('L', 'A4');
 
-$sql =  mysqli_query($koneksi, "SELECT * FROM vektor_v INNER JOIN hasil_waspas ON vektor_v.id_narapidana=hasil_waspas.id_narapidana ORDER BY vektor_v.nilai_vektor DESC LIMIT 15");
+$sql =  mysqli_query($koneksi, "SELECT * FROM data_alternatif");
 $no_hasil = 1;
 
-$judul = "DATA NARAPIDANA YANG MENDAPAT REMISI";
+$judul = "LAPORAN CALON SISWA BERPRESTASI PADA SMAN 2 BALAESANG";
 $header = array(
     array("label" => "No.", "length" => 10, "align" => "C"),
-    array("label" => "No. Register", "length" => 35, "align" => "C"),
-    array("label" => "Nama Narapidana", "length" => 60, "align" => "C"),
-    array("label" => "Agama", "length" => 20, "align" => "C"),
-    array("label" => "Jenis Kelamin", "length" => 32, "align" => "C"),
-    array("label" => "Tanggal Masuk", "length" => 40, "align" => "C"),
-    array("label" => "Ekspirasi Akhir", "length" => 40, "align" => "C"),
-    array("label" => "Hasil Ranking", "length" => 40, "align" => "C")
+    array("label" => "Kelas", "length" => 35, "align" => "C"),
+    array("label" => "Nama Siswa", "length" => 60, "align" => "C"),
+    array("label" => "Jenis Kelamin", "length" => 40, "align" => "C"),
+    array("label" => "Alamat", "length" => 80, "align" => "C"),
+    array("label" => "Rangking", "length" => 60, "align" => "C")
 );
 
 #sertakan library FPDF dan bentuk objek
 
 #gambar kop
-$pdf->Image('kop1.jpg', 10, 7, 277);
+$pdf->Image('kop.png', 10, 10, 277);
 
 #tampilkan judul laporan
 $pdf->SetFont('Arial', 'B', '16');
@@ -57,20 +55,15 @@ $pdf->SetTextColor(0);
 $pdf->SetFont('');
 $fill = false;
 while ($row = mysqli_fetch_array($sql)) {
-    $id_tampil = $row['id_narapidana'];
-    $sql_1 =  mysqli_query($koneksi, "SELECT * FROM narapidana WHERE id_narapidana='$id_tampil'");
+    $id_tampil = $row['id_alternatif'];
+    $sql_1 =  mysqli_query($koneksi, "SELECT * FROM data_alternatif WHERE id_alternatif='$id_tampil'");
     while ($row_1 = mysqli_fetch_array($sql_1)) {
-        $tanggal1 = date('d-m-Y', strtotime($row_1['expirasi_awal']));
-        $tanggal2 = date('d-m-Y', strtotime($row_1['expirasi_sementara']));
         $pdf->Cell(10, 8, $no_hasil++ . '.', 1, '0', 'C', $fill);
-        $pdf->Cell(35, 8, $row_1['no_registrasi'], 1, '0', 'C', $fill);
-        $pdf->Cell(60, 8, $row_1['nama_narapidana'], 1, '0', 'C', $fill);
-        $pdf->Cell(20, 8, $row_1['agama'], 1, '0', 'C', $fill);
-        $pdf->Cell(32, 8, $row_1['jenis_kelamin'], 1, '0', 'C', $fill);
-        $pdf->Cell(40, 8, $tanggal1, 1, '0', 'C', $fill);
-        $pdf->Cell(40, 8, $tanggal2, 1, '0', 'C', $fill);
-        $hasil_akhir = (($row['nilai_vektor'] / 0.20069593053999) * 100) + (($row['hasil_waspas'] / 3.5) * 100);
-        $pdf->Cell(40, 8, $hasil_akhir / 2, 1, '1', 'C', $fill);
+        $pdf->Cell(35, 8, $row_1['id_kelas'], 1, '0', 'C', $fill);
+        $pdf->Cell(60, 8, $row_1['nama'], 1, '0', 'C', $fill);
+        $pdf->Cell(40, 8, $row_1['kelamin'], 1, '0', 'C', $fill);
+        $pdf->Cell(80, 8, $row_1['alamat'], 1, '0', 'C', $fill);
+        $pdf->Cell(60, 8, $row_1['hasil_akhir'], 1, '1', 'C', $fill);
     }
     $fill = !$fill;
 }

@@ -1,28 +1,28 @@
 <?php
- session_start();
-    $title = "Alternatif - Sipres";
-    require 'layouts/header.php';
-    require 'layouts/navbar.php';
-    require 'functions.php';
-    if (!isset($_SESSION["username"])) {
-        echo '<script>
+session_start();
+$title = "Alternatif - Sipres";
+require 'layouts/header.php';
+require 'layouts/navbar.php';
+require 'functions.php';
+if (!isset($_SESSION["username"])) {
+    echo '<script>
                     alert("Mohon login dahulu !");
                     window.location="' . $base_url . '/";
                 </script>';
-        return false;
-    }
+    return false;
+}
 
-    if ($_SESSION["role_id"] != "1") {
-        echo '<script>
+if ($_SESSION["role_id"] != "1") {
+    echo '<script>
                     alert("Maaf Anda Tidak Berhak Ke Halaman ini !");
                     window.location="' . $base_url . '/' . $_SESSION["role"] . '/";
                     </script>';
-        return false;
-    }
-    $user = $_SESSION["username"];
-    $query = mysqli_query($conn, "SELECT * FROM user WHERE username = '$user'");
-    $admin = mysqli_fetch_assoc($query);
-    require 'layouts/sidebar.php';?>
+    return false;
+}
+$user = $_SESSION["username"];
+$query = mysqli_query($conn, "SELECT * FROM user WHERE username = '$user'");
+$admin = mysqli_fetch_assoc($query);
+require 'layouts/sidebar.php'; ?>
 
 <div class="content-wrapper">
     <div class="content-header">
@@ -71,9 +71,13 @@
                                                         <label for="kelas">kelas</label>
                                                         <select class="form-control" name="kelas" id="kelas">
                                                             <option>-- Silahkan Pilih-- </option>
-                                                            <option value="Kelas Satu">Kelas Satu</option>
-                                                            <option value="Kelas Kedua">Kelas Kedua</option>
-                                                            <option value="Kelas Ketiga">Kelas Ketiga</option>
+                                                            <?php
+                                                            $query = mysqli_query($conn, "SELECT * FROM kelas");
+                                                            while ($kelas = mysqli_fetch_assoc($query)) {
+                                                            ?>
+                                                            <option value="<?= $kelas["id_kelas"]; ?>">
+                                                                <?= $kelas["nama_kelas"]; ?></option>
+                                                            <?php } ?>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -157,7 +161,7 @@
                                 </thead>
                                 <?php
                                 $i = 1;
-                                $sql = mysqli_query($conn, "SELECT * FROM alternatif");
+                                $sql = mysqli_query($conn, "SELECT * FROM data_alternatif");
                                 while ($row = mysqli_fetch_assoc($sql)) {
                                 ?>
                                 <tr>
@@ -166,13 +170,13 @@
                                     <td><?= $row['nama']; ?></td>
                                     <td><?= $row['nis']; ?></td>
                                     <td><?= $row['tempat_lahir']; ?></td>
-                                    <td><?= tanggal_indo($row['tanggal_lahir']);?></td>
+                                    <td><?= tanggal_indo($row['tanggal_lahir']); ?></td>
                                     <td><?= $row['kelamin']; ?></td>
                                     <td><?= $row['alamat']; ?></td>
                                     <td>
                                         <a class="btn btn-danger btn-sm hapus_alternatif"
-                                            href="alternatif/hapus.php?id=<?= $row["id"]; ?>"><i
-                                                class="fas fa-trash"></i></a>  
+                                            href="alternatif/hapus.php?id=<?= $row["id_alternatif"]; ?>"><i
+                                                class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>
                                 <?php $i++; ?>

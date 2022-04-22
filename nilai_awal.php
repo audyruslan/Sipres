@@ -1,28 +1,28 @@
 <?php
- session_start();
-    $title = "Nilai Awal - Sipres";
-    require 'layouts/header.php';
-    require 'layouts/navbar.php';
-    require 'functions.php';
-    if (!isset($_SESSION["username"])) {
-        echo '<script>
+session_start();
+$title = "Nilai Awal - Sipres";
+require 'layouts/header.php';
+require 'layouts/navbar.php';
+require 'functions.php';
+if (!isset($_SESSION["username"])) {
+    echo '<script>
                     alert("Mohon login dahulu !");
                     window.location="' . $base_url . '/";
                 </script>';
-        return false;
-    }
+    return false;
+}
 
-    if ($_SESSION["role_id"] != "1") {
-        echo '<script>
+if ($_SESSION["role_id"] != "1") {
+    echo '<script>
                     alert("Maaf Anda Tidak Berhak Ke Halaman ini !");
                     window.location="' . $base_url . '/' . $_SESSION["role"] . '/";
                     </script>';
-        return false;
-    }
-    $user = $_SESSION["username"];
-    $query = mysqli_query($conn, "SELECT * FROM user WHERE username = '$user'");
-    $admin = mysqli_fetch_assoc($query);
-    require 'layouts/sidebar.php';?>
+    return false;
+}
+$user = $_SESSION["username"];
+$query = mysqli_query($conn, "SELECT * FROM user WHERE username = '$user'");
+$admin = mysqli_fetch_assoc($query);
+require 'layouts/sidebar.php'; ?>
 
 <div class="content-wrapper">
     <div class="content-header">
@@ -71,46 +71,47 @@
                                                         <label for="siswa">Siswa</label>
                                                         <select class="form-control" name="siswa" id="siswa">
                                                             <option>-- Silahkan Pilih-- </option>
-                                                            <?php 
-                                                                $sql = mysqli_query($conn, "SELECT * FROM alternatif");
-                                                                while($role = mysqli_fetch_assoc($sql)){
+                                                            <?php
+                                                            $sql = mysqli_query($conn, "SELECT * FROM data_alternatif");
+                                                            while ($role = mysqli_fetch_assoc($sql)) {
                                                             ?>
-                                                            <option value="<?= $role["id"]; ?>">
-                                                                <?= $role["nama_lengkap"]; ?>
+                                                            <option value="<?= $role['id_alternatif']; ?>">
+                                                                <?= $role["nama"]; ?>
                                                             </option>
-                                                            <?php 
-                                                                }
+                                                            <?php
+                                                            }
                                                             ?>
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <?php 
-                                                    $kriteriasql = mysqli_query($conn,"SELECT * FROM kriteria ORDER BY id ASC");
-                                                    while($rowkri = mysqli_fetch_array($kriteriasql)){
+                                                <?php
+                                                $kriteriasql = mysqli_query($conn, "SELECT * FROM data_kriteria ORDER BY id_kriteria ASC");
+                                                while ($rowkri = mysqli_fetch_array($kriteriasql)) {
                                                 ?>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label
-                                                            for="<?=$rowkri["nama_kriteria"]?>"><?=ucfirst($rowkri["nama_kriteria"])?></label>
+                                                            for="<?= $rowkri["nama_kriteria"] ?>"><?= ucfirst($rowkri["nama_kriteria"]) ?></label>
                                                         <input type="text" autocomplete="off"
-                                                            name="kriteria[<?=$rowkri["id"]?>]" class="form-control"
-                                                            placeholder="Masukkan <?=$rowkri['nama_kriteria']?>">
+                                                            name="kriteria[<?= $rowkri["id_kriteria"] ?>]"
+                                                            class="form-control"
+                                                            placeholder="Masukkan <?= $rowkri['nama_kriteria'] ?>">
                                                     </div>
                                                 </div>
-                                                <?php 
-                                                    }
+                                                <?php
+                                                }
                                                 ?>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label for="periode">Periode</label>
                                                         <select class="form-control" name="periode" id="periode">
                                                             <option>-- Silahkan Pilih-- </option>
-                                                            <?php 
-                                                                for($i=2022; $i<=2025; $i++):
+                                                            <?php
+                                                            for ($i = 2022; $i <= 2025; $i++) :
                                                             ?>
                                                             <option value="<?= $i; ?>"><?= $i; ?></option>
-                                                            <?php 
-                                                                endfor;
+                                                            <?php
+                                                            endfor;
                                                             ?>
                                                         </select>
                                                     </div>
@@ -146,21 +147,21 @@
                                 <tr>
                                     <td><?= $i; ?></td>
                                     <td><?= $row['nilai']; ?></td>
-                                    <td><?php 
-                                        if ($row['keterangan'] == "A") {
-                                            echo "Sangat Memuaskan";
-                                        }elseif($row['keterangan'] == "B"){
-                                            echo "Baik";
-                                        }elseif($row['keterangan'] == "C"){
-                                            echo "Cukup";
-                                        }else{
-                                            echo "Kurang";
-                                        }
-                                    ?></td>
+                                    <td><?php
+                                            if ($row['keterangan'] == "A") {
+                                                echo "Sangat Memuaskan";
+                                            } elseif ($row['keterangan'] == "B") {
+                                                echo "Baik";
+                                            } elseif ($row['keterangan'] == "C") {
+                                                echo "Cukup";
+                                            } else {
+                                                echo "Kurang";
+                                            }
+                                            ?></td>
                                     <td><?= $row['periode']; ?></td>
                                     <td>
                                         <a class="btn btn-danger btn-sm hapus_nilai_awal"
-                                            href="nilai_awal/hapus.php?id=<?= $row["id"]; ?>"><i
+                                            href="nilai_awal/hapus.php?id=<?= $row["id_nilai_awal"]; ?>"><i
                                                 class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>

@@ -22,26 +22,6 @@ class Alternatif
 		$this->conn = $db;
 	}
 
-	function insert()
-	{
-		$query = "INSERT INTO {$this->table_name} VALUES(?, ?, ?, ?, ?, ?, ?, ?, NULL)";
-		$stmt = $this->conn->prepare($query);
-		$stmt->bindParam(1, $this->id);
-		$stmt->bindParam(2, $this->id_kelas);
-		$stmt->bindParam(3, $this->nis);
-		$stmt->bindParam(4, $this->nama);
-		$stmt->bindParam(5, $this->tempat_lahir);
-		$stmt->bindParam(6, $this->tanggal_lahir);
-		$stmt->bindParam(7, $this->kelamin);
-		$stmt->bindParam(8, $this->alamat);
-
-		if ($stmt->execute()) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 	function readAll()
 	{
 		$query = "SELECT * FROM {$this->table_name} ORDER BY id_alternatif ASC";
@@ -193,59 +173,5 @@ class Alternatif
 	{
 		$new = str_pad($start, $chars, "0", STR_PAD_LEFT);
 		return $key . $new;
-	}
-
-	function update()
-	{
-		$query = "UPDATE {$this->table_name}
-				SET
-					id_kelas = :id_kelas,
-					nis = :nis,
-					nama = :nama,
-					tempat_lahir = :tempat_lahir,
-					tanggal_lahir = :tanggal_lahir,
-					kelamin = :kelamin,
-					alamat = :alamat
-				WHERE
-					id_alternatif = :id";
-		$stmt = $this->conn->prepare($query);
-
-		$stmt->bindParam(':id_kelas', $this->id_kelas);
-		$stmt->bindParam(':nis', $this->nis);
-		$stmt->bindParam(':nama', $this->nama);
-		$stmt->bindParam(':tempat_lahir', $this->tempat_lahir);
-		$stmt->bindParam(':tanggal_lahir', $this->tanggal_lahir);
-		$stmt->bindParam(':kelamin', $this->kelamin);
-		$stmt->bindParam(':alamat', $this->alamat);
-		$stmt->bindParam(':id', $this->id);
-
-		if ($stmt->execute()) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	function delete()
-	{
-		$query = "DELETE FROM {$this->table_name} WHERE id_alternatif = ?";
-		$stmt = $this->conn->prepare($query);
-		$stmt->bindParam(1, $this->id);
-		if ($result = $stmt->execute()) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	function hapusell($ax)
-	{
-		$query = "DELETE FROM {$this->table_name} WHERE id_alternatif in $ax";
-		$stmt = $this->conn->prepare($query);
-		if ($result = $stmt->execute()) {
-			return true;
-		} else {
-			return false;
-		}
 	}
 }

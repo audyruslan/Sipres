@@ -15,10 +15,9 @@ function tambah($data)
     $alamat = $data["alamat"];
 
     // tambahkan data ke database
-    mysqli_query($conn, "INSERT INTO alternatif 
-        (kelas,nama_lengkap,nis,tmp_lahir,tgl_lahir,jenis_kelamin,alamat,hasil_akhir)
+    mysqli_query($conn, "INSERT INTO data_alternatif 
         VALUES
-        ('$kelas','$nama_lengkap','$nis','$tmp_lahir','$tgl_lahir','$jenis_kelamin','$alamat','')");
+        ('','$kelas','$nama_lengkap','$nis','$tmp_lahir','$tgl_lahir','$jenis_kelamin','$alamat','')");
 
     return mysqli_affected_rows($conn);
 }
