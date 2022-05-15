@@ -51,11 +51,11 @@
               <div class="row">
                   <?php
                     // Count Data Alternatif
-                    $countAlternatif = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM alternatif"));
+                    $countAlternatif = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM data_alternatif"));
                     // Count Data Alternatif
-                    $countKriteria = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM kriteria"));
+                    $countKriteria = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM data_kriteria"));
                     // Count Data Alternatif
-                    $countAwal = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM preferensi"));
+                    $countAwal = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM nilai"));
                     // Count Data Alternatif
                     $countUser = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM user"));
                     ?>
@@ -70,8 +70,7 @@
                           <div class="icon">
                               <i class="ion ion-bag"></i>
                           </div>
-                          <a href="alternatif.php" class="small-box-footer">More info <i
-                                  class="fas fa-arrow-circle-right"></i></a>
+                          <a href="alternatif.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                       </div>
                   </div>
                   <!-- ./col -->
@@ -86,8 +85,7 @@
                           <div class="icon">
                               <i class="ion ion-stats-bars"></i>
                           </div>
-                          <a href="kriteria.php" class="small-box-footer">More info <i
-                                  class="fas fa-arrow-circle-right"></i></a>
+                          <a href="kriteria.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                       </div>
                   </div>
                   <!-- ./col -->
@@ -102,8 +100,7 @@
                           <div class="icon">
                               <i class="ion ion-person-add"></i>
                           </div>
-                          <a href="nilai_preferensi.php" class="small-box-footer">More info <i
-                                  class="fas fa-arrow-circle-right"></i></a>
+                          <a href="nilai_preferensi.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                       </div>
                   </div>
                   <!-- ./col -->
@@ -118,8 +115,7 @@
                           <div class="icon">
                               <i class="ion ion-pie-graph"></i>
                           </div>
-                          <a href="add_role.php" class="small-box-footer">More info <i
-                                  class="fas fa-arrow-circle-right"></i></a>
+                          <a href="add_role.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                       </div>
                   </div>
                   <!-- ./col -->
