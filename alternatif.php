@@ -22,7 +22,16 @@ if ($_SESSION["role_id"] != "1") {
 $user = $_SESSION["username"];
 $query = mysqli_query($conn, "SELECT * FROM user WHERE username = '$user'");
 $admin = mysqli_fetch_assoc($query);
-require 'layouts/sidebar.php'; ?>
+require 'layouts/sidebar.php'; 
+
+// Connect DB
+include("includes/config.php");
+$config = new Config();
+$db = $config->getConnection();
+
+include_once 'includes/alternatif.inc.php';
+$altObj = new Alternatif($db);
+?>
 
 <div class="content-wrapper">
     <div class="content-header">
@@ -63,14 +72,17 @@ require 'layouts/sidebar.php'; ?>
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-                                    <form action="alternatif/tambah.php" method="post">
+                                    <form id="Formalternatif" action="alternatif/tambah.php" method="post">
                                         <div class="modal-body">
                                             <div class="row">
                                                 <div class="col-md-4">
+                                                    <input type="hidden" name="id_alternatif" id="id_alternatif"
+                                                        value="<?php echo $altObj->getNewID(); ?>">
                                                     <div class="form-group">
                                                         <label for="kelas">kelas</label>
-                                                        <select class="form-control" name="kelas" id="kelas">
-                                                            <option>-- Silahkan Pilih-- </option>
+                                                        <select class="form-control" name="kelas" id="kelas"
+                                                            autocomplete="off">
+                                                            <option value="">-- Silahkan Pilih-- </option>
                                                             <?php
                                                             $query = mysqli_query($conn, "SELECT * FROM kelas");
                                                             while ($kelas = mysqli_fetch_assoc($query)) {
@@ -85,7 +97,7 @@ require 'layouts/sidebar.php'; ?>
                                                     <div class="form-group">
                                                         <label for="nama_lengkap">Nama Lengkap</label>
                                                         <input type="text" autocomplete="off" class="form-control"
-                                                            id="nama_lengkap" name="nama_lengkap"
+                                                            id="nama_lengkap" name="nama_lengkap" value=""
                                                             placeholder="Nama Lengkap">
                                                     </div>
                                                 </div>
@@ -116,8 +128,8 @@ require 'layouts/sidebar.php'; ?>
                                                     <div class="form-group">
                                                         <label for="jenis_kelamin">Jenis Kelamin</label>
                                                         <select class="form-control" name="jenis_kelamin"
-                                                            id="jenis_kelamin">
-                                                            <option>-- Silahkan Pilih-- </option>
+                                                            id="jenis_kelamin" autocomplete="off" id="jenis_kelamin">
+                                                            <option value="">-- Silahkan Pilih-- </option>
                                                             <option value="Laki-laki">Laki-laki</option>
                                                             <option value="Perempuan">Perempuan</option>
                                                         </select>
@@ -129,7 +141,7 @@ require 'layouts/sidebar.php'; ?>
                                                     <div class="form-group">
                                                         <label for="alamat">Alamat</label>
                                                         <textarea class="form-control" name="alamat" id="alamat"
-                                                            rows="5"></textarea>
+                                                            autocomplete="off" rows="5"></textarea>
                                                     </div>
                                                 </div>
                                             </div>

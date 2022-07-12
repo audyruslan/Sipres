@@ -6,18 +6,19 @@ function tambah($data)
 {
     global $conn;
 
+    $id_alternatif = $data['id_alternatif'];
     $kelas = $data['kelas'];
     $nama_lengkap = $data['nama_lengkap'];
     $nis = $data['nis'];
     $tmp_lahir = $data['tmp_lahir'];
-    $tgl_lahir = $data['tgl_lahir'];
+    $tgl_lahir = $data['tgl_lahir']; 
     $jenis_kelamin = $data["jenis_kelamin"];
     $alamat = $data["alamat"];
 
     // tambahkan data ke database
     mysqli_query($conn, "INSERT INTO data_alternatif 
         VALUES
-        ('','$kelas','$nama_lengkap','$nis','$tmp_lahir','$tgl_lahir','$jenis_kelamin','$alamat','')");
+        ('$id_alternatif','$kelas','$nis','$nama_lengkap','$tmp_lahir','$tgl_lahir','$jenis_kelamin','$alamat','')");
 
     return mysqli_affected_rows($conn);
 }
