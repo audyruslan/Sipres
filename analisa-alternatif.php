@@ -86,7 +86,7 @@ array_splice($nid, $ne, 1);
             <div class="card card-outline card-secondary">
                 <div class="row p-3">
                     <div class="col">
-                        <table class="table table-striped table-bordered" cellspacing="0">
+                        <table id="alter" class="table table-striped table-bordered" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -99,10 +99,12 @@ array_splice($nid, $ne, 1);
                                 </tr>
                             </thead>
                             <?php
-                            $no = 1;
-                            $alt1a = $altObj->readByFilter();
-                            while ($row = $alt1a->fetch(PDO::FETCH_ASSOC)) :
-                            ?>
+                                $i = 1;
+                                $sql = mysqli_query($conn, "SELECT * FROM data_alternatif
+                                                    JOIN nilai_awal
+                                                    ON data_alternatif.id_alternatif = nilai_awal.id_alternatif");
+                                while ($row = mysqli_fetch_assoc($sql)) {
+                                ?>
                             <tr>
                                 <td><?= $no++; ?></td>
                                 <td><?= $row['id_alternatif']; ?></td>
@@ -151,7 +153,7 @@ array_splice($nid, $ne, 1);
                                     </div>
                                 </div>
                             </div>
-                            <?php endwhile; ?>
+                            <?php } ?>
                         </table>
                     </div>
                 </div>
@@ -247,5 +249,36 @@ array_splice($nid, $ne, 1);
     </section>
 </div>
 
-<?php
-require 'layouts/footer.php'; ?>
+<!-- /.content-wrapper -->
+<footer class="main-footer">
+    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+    All rights reserved.
+    <div class="float-right d-none d-sm-inline-block">
+        <b>Version</b> 3.2.0
+    </div>
+</footer>
+
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+</aside>
+<!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="plugins/jquery-ui/jquery-ui.min.js"></script>\
+<!-- Bootstrap 4 -->
+<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- ChartJS -->
+<script src="plugins/chart.js/Chart.min.js"></script>
+<script src="plugins/jquery-knob/jquery.knob.min.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- AdminLTE App -->
+<script src="dist/js/adminlte.js"></script>
+</body>
+
+</html>
