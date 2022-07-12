@@ -31,7 +31,7 @@ include_once('includes/bobot.inc.php');
 include_once('includes/kriteria.inc.php');
 
 $bobotObj = new Bobot($db);
-$count = $bobotObj->countAll();
+$count = $bobotObj->countAll(); 
 
 if (isset($_POST['submit'])) {
     echo "heyehye";
@@ -169,11 +169,13 @@ if (isset($_POST['hapus'])) {
                                     <th><?= $row2x['nama_kriteria'] ?></th>
                                     <?php endwhile; ?>
                                     <th class="info">Jumlah</th>
-                                    <th class="success">Prioritas</th>
+                                    <th class="success">Rata-rata</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $bobots2x = $bobotObj->readAll2();
+                                <?php 
+                                $tot = 0;
+                                $bobots2x = $bobotObj->readAll2();
                                 while ($baris = $bobots2x->fetch(PDO::FETCH_ASSOC)) : ?>
                                 <tr>
                                     <th class="active"><?= $baris['nama_kriteria'] ?></th>
@@ -208,61 +210,18 @@ if (isset($_POST['hapus'])) {
                                             $bobotObj->insert4($b, $baris['id_kriteria']);
                                             echo number_format($b, 4, '.', ',');
                                             ?>
+                                        <?php $tot += $b; ?>
                                     </th>
                                 </tr>
                                 <?php endwhile; ?>
                             </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="card card-outline card-secondary">
-                <div class="row">
-                    <div class="col">
-                        <table class="table table-striped table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Penjumlahan</th>
-                                    <?php $bobots1y = $bobotObj->readAll2();
-                                    while ($row = $bobots1y->fetch(PDO::FETCH_ASSOC)) : ?>
-                                    <th><?= $row['nama_kriteria'] ?></th>
-                                    <?php endwhile; ?>
-                                    <th class="info">Jumlah</th>
+                            <tfoot>
+                                <tr class="success">
+                                    <th colspan="6"></th>
+                                    <th><?php
+                                        echo $tot; ?></th>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                <?php $sumRow = [];
-                                $bobots2y = $bobotObj->readAll2();
-                                while ($baris = $bobots2y->fetch(PDO::FETCH_ASSOC)) : ?>
-                                <tr>
-                                    <th class="active"><?= $baris['nama_kriteria'] ?></th>
-                                    <?php $jumlah = 0;
-                                        $bobots3y = $bobotObj->readAll2();
-                                        while ($kolom = $bobots3y->fetch(PDO::FETCH_ASSOC)) : ?>
-                                    <td>
-                                        <?php
-                                                if ($baris['id_kriteria'] == $kolom['id_kriteria']) {
-                                                    $c = $kolom['bobot_kriteria'] * 1;
-                                                    echo number_format($c, 4, '.', ',');
-                                                    $jumlah += $c;
-                                                } else {
-                                                    $bobotObj->readAll1($baris['id_kriteria'], $kolom['id_kriteria']);
-                                                    $c = $kolom['bobot_kriteria'] * $bobotObj->kp;
-                                                    echo number_format($c, 4, '.', ',');
-                                                    $jumlah += $c;
-                                                }
-                                                ?>
-                                    </td>
-                                    <?php endwhile; ?>
-                                    <th class="info">
-                                        <?php
-                                            $sumRow[$baris['id_kriteria']] = $jumlah;
-                                            echo number_format($jumlah, 4, '.', ',');
-                                            ?>
-                                    </th>
-                                </tr>
-                                <?php endwhile; ?>
-                            </tbody>
+                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -285,10 +244,16 @@ if (isset($_POST['hapus'])) {
                                 while ($row1 = $bobots1z->fetch(PDO::FETCH_ASSOC)) : ?>
                                 <tr>
                                     <th class="active"><?= $row1["nama_kriteria"] ?></th>
-                                    <th class="info"><?= number_format($sumRow[$row1["id_kriteria"]], 4, '.', ',') ?>
+                                    <?php 
+                                        $bobotObj->readSum1($row1['id_kriteria']); ?>
+
+                                    <th class="info">
+                                        <?php
+                                        echo number_format($bobotObj->nak, 4, '.', ',');
+                                    ?>
                                     </th>
                                     <th class="success"><?= number_format($row1["bobot_kriteria"], 4, '.', ','); ?></th>
-                                    <?php $jumlah = $sumRow[$row1["id_kriteria"]] + $row1["bobot_kriteria"]; ?>
+                                    <?php $jumlah = $bobotObj->nak * $row1["bobot_kriteria"]; ?>
                                     <th class="warning"><?= number_format($jumlah, 4, '.', ','); ?></th>
                                     <?php $total += $jumlah; ?>
                                 </tr>
@@ -297,7 +262,7 @@ if (isset($_POST['hapus'])) {
                             <tfoot>
                                 <tr class="danger">
                                     <th colspan="3">Rata-rata</th>
-                                    <th><?php $rata = $total / $count;
+                                    <th><?php $rata = $total;
                                         echo number_format($rata, 4, '.', ','); ?></th>
                                 </tr>
                             </tfoot>
@@ -320,7 +285,7 @@ if (isset($_POST['hapus'])) {
                                 </tr>
                                 <tr>
                                     <th>IR</th>
-                                    <td><?php echo $ir = $bobotObj->getIr($count); ?></td>
+                                    <td><?php echo $ir = number_format($bobotObj->getIr($count),2, '.', ','); ?></td>
                                 </tr>
                                 <tr>
                                     <th>CI</th>

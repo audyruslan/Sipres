@@ -68,7 +68,6 @@ class Alternatif
 				FROM {$this->table_name} a
 					JOIN nilai_awal b ON a.id_alternatif=b.id_alternatif
 				WHERE b.keterangan='B'
-					AND b.periode=?
 				ORDER BY hasil_akhir DESC
 				LIMIT 0,5";
 		$stmt = $this->conn->prepare($query);

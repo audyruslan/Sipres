@@ -1,6 +1,6 @@
 <?php
 // koneksi ke database
-$conn = mysqli_connect("localhost", "root", "", "ahp");
+$conn = mysqli_connect("localhost", "root", "", "ahp2");
 // link
 $base_url = "http://localhost/sipres";
 function query($query)

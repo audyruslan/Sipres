@@ -68,36 +68,36 @@ $stmtx2y = $ranObj->readBob();
                             <form action="hasil/cetak_hasil.php" method="post" enctype="multipart/form-data">
                                 <button class="btn btn-primary m-2" type="submit" style="float: right;">Cetak</button>
                             </form>
-
-                            <?php for ($i = 2018; $i <= 2019; $i++) : ?>
-                                <h4>Tahun <?= $i ?></h4>
-                                <table width="100%" class="table table-striped table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>NIS</th>
-                                            <th>Kelas</th>
-                                            <th>Nama</th>
-                                            <th>Hasil Akhir</th>
-                                            <th class="success">Ranking</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php $altObj->periode = $i;
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                </div>
+                            </div>
+                            <h1>Hasil Perangkingan</h1>
+                            <table width="100%" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>NIS</th>
+                                        <th>Kelas</th>
+                                        <th>Nama</th>
+                                        <th>Hasil Akhir</th>
+                                        <th class="success">Ranking</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
                                         $rank = 1;
                                         $alt1c = $altObj->readByRank();
                                         while ($row = $alt1c->fetch(PDO::FETCH_ASSOC)) : ?>
-                                            <tr>
-                                                <td><?= $row["nis"] ?></td>
-                                                <td><?= $altObj->getNamaKelas($row["id_kelas"]) ?></td>
-                                                <td><?= $row["nama"] ?></td>
-                                                <td><?= number_format($row["hasil_akhir"], 4, '.', ',') ?></td>
-                                                <td class="success"><?= $rank++ ?></td>
-                                            </tr>
-                                        <?php endwhile; ?>
-                                    </tbody>
-                                </table>
-                                <br>
-                            <?php endfor; ?>
+                                    <tr>
+                                        <td><?= $row["nis"] ?></td>
+                                        <td><?= $altObj->getNamaKelas($row["id_kelas"]) ?></td>
+                                        <td><?= $row["nama"] ?></td>
+                                        <td><?= number_format($row["hasil_akhir"], 4, '.', ',') ?></td>
+                                        <td class="success"><?= $rank++ ?></td>
+                                    </tr>
+                                    <?php endwhile; ?>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
